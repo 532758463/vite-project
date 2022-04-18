@@ -9,11 +9,12 @@ import viteImagemin from "vite-plugin-imagemin";
 import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
 // code splitting
 import { chunkSplitPlugin } from "vite-plugin-chunk-split";
+import legacy from "@vitejs/plugin-legacy";
 
 // 是否为生产环境，在生产环境一般会注入 NODE_ENV 这个环境变量，见下面的环境变量文件配置
 const isProduction = process.env.NODE_ENV === "production";
 // 填入项目的 CDN 域名地址
-const CDN_URL = "xxxxxx";
+const CDN_URL = "static";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -57,6 +58,10 @@ export default defineConfig({
       customSplitting: {
         "react-vendor": ["react", "react-dom"]
       }
+    }),
+    legacy({
+      // 设置目标浏览器，browserslist 配置语法
+      targets: ["ie >= 11"]
     })
   ],
   resolve: {
