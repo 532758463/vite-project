@@ -7,6 +7,8 @@ import svgr from "vite-plugin-svgr";
 import { join } from "path";
 import viteImagemin from "vite-plugin-imagemin";
 import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
+// code splitting
+import { chunkSplitPlugin } from "vite-plugin-chunk-split";
 
 // 是否为生产环境，在生产环境一般会注入 NODE_ENV 这个环境变量，见下面的环境变量文件配置
 const isProduction = process.env.NODE_ENV === "production";
@@ -49,6 +51,12 @@ export default defineConfig({
     }),
     createSvgIconsPlugin({
       iconDirs: [join(__dirname, "src/assets/icons")]
+    }),
+    chunkSplitPlugin({
+      // 抽取react、react-dom
+      customSplitting: {
+        "react-vendor": ["react", "react-dom"]
+      }
     })
   ],
   resolve: {
